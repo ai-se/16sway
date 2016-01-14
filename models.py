@@ -190,6 +190,46 @@ def _Viennet4():
           'decs' :  [-0.037, -0.404]} \
             == {'decs' : r3s(x.decs), 'objs': r3s(x.objs)}
  
+def _div(items=512):
+  models= [ZDT1,Fonseca,Kursawe]
+  for f in models:
+    reset()
+    GRID(bins=32)
+    print(f.__name__)
+    m=f()
+    rows, _,all = _gridding(m,items)
+    print("\n")
+    printm([ [ _show(cell,items) for cell in row]  
+               for row  in rows])
+  
+    cells = []
+    for row in rows:
+        for cell in row:
+          cells += [cell]
+    print("")
+    overalls =  _divParts(m,all) 
+    for i in xrange(len(m.objs)):
+      print("")
+      overall = overalls[i]
+      print(i,"all :",overall,overall[3]-overall[1],sep=",")
+      for cell in cells:
+        if len(cell) > 8:
+          parts= _divParts(m,cell)
+          part = parts[i] 
+          deltas = [int(div(100* (theres - here), theres))
+                    for here,theres in zip(part,overall)]
+          print(i,"part:",part,deltas,len(cell),part[3]-part[1],sep=",")
+    
+        
+    
+#    
+
+def _divParts(m,lst):
+  nums = [Num() for _ in m.objs]
+  for one in lst:
+    for num,obj in zip(nums,one.objs):
+        num+ obj
+  return [ num.also().range for num in nums] 
  
 def _rahul(items=512):
   models= [BASIC,BASIC,
@@ -205,7 +245,7 @@ def _rahul(items=512):
     reset()
     GRID(bins=16)
     print(f.__name__)
-    rows= _gridding(f(),items)
+    rows,_= _gridding(f(),items)
     print("\n")
     printm([ [ _show(cell,items) for cell in row]  
             for row  in rows])
@@ -214,7 +254,8 @@ def _gridding(m,items):
     spaceDecs = Space(value=decisions)
     spaceObjs = Space(value=objectives) 
     gridDecs  = Grid(spaceDecs)
-    all =  [_worker(m,spaceDecs,gridDecs,spaceObjs)  
+    gridObjs  = Grid(spaceObjs)
+    all =  [_worker(m,spaceDecs,gridDecs,spaceObjs,gridObjs)  
             for _ in xrange(items)] 
     #xs1,ys1= _frontier(m,all,spaceObjs) 
     #xs2,ys2= _frontier(m,all,spaceObjs,how='cdom') 
@@ -225,18 +266,20 @@ def _gridding(m,items):
      #     (data(xs2), data(ys2), {'legend':'cdom'}),
       #    (data(xs1), data(ys1), {'legend':'bdom'}),
        ### cmds="set key bottom left") 
-    return gridDecs.grid.cells
+    return gridDecs.grid.cells, gridObjs.grid.cells,all
 
-def _worker(m,spaceDecs,gridDecs,spaceObjs):
+def _worker(m,spaceDecs,gridDecs,spaceObjs,gridObjs):
     x = m.decide()
     spaceDecs + x
     gridDecs + x
     x= m.eval(x)
     spaceObjs + x 
+    gridObjs + x
     return x
 def _show(cell,items):
     n = len(cell) 
     p =   int(100*n /items)
+    return str(n)
     if p >=  1: return p
     if n > 0 : return "."
     return " "
@@ -249,5 +292,6 @@ def _frontier(m,all,spaceObjs,how="bdom"):
         ys += [one.objs[1]]
     return xs,ys
   
-main(__name__,_models, _Viennet4,
-             _tournament)
+main(__name__,#_models, _Viennet4,
+             #_rahul
+             _div)
