@@ -60,6 +60,7 @@ class Num(Log):
       r   = the.COUNTS.round
       i._also = o(some=lst,
                   median=lst[int(m/2)],
+                  mu = i.mu,
                   range=r([lst[int(m*x)] for x in the.COUNTS.qs]))
     return i._also
   

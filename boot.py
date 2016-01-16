@@ -11,7 +11,7 @@ class ok:
   tries = fails = 0  #  tracks the record so far
   def score(i):
     t,f= ok.tries, ok.fails
-    return "# TRIES= %s FAIL= %s %%PASS = %s%%"  % (
+    return "# TRIES= %s, FAIL= %s, %%PASS = %s%%"  % (
       t,f,int(round(t*100/(t+f+0.001))))
   def __init__(i,*tests):
     map(i.test,tests)

@@ -80,3 +80,17 @@ currently are passing their tests:
 -  [ ] model.py 
 -  [ ] models.py  # tournament 
 -  [ ] control.py 
+
+## Conclusions, so far
+
+### The Fonseca Effect
+
+99% of all items in one cell
+
+### The ZDT1 effect1
+
+Cells where objectives X and Y both get better may be in differet locations.
+
+### The ZDT1 effect2
+
+"Good" cells (with more than N items) may be islands (not form 1 clump).

@@ -40,11 +40,18 @@ ee     = math.e
 pi     = math.pi
 div   = lambda x,y: x/(y+0.00001)
 
+def any2(lst,f=lambda x,y:[x,y]):
+  return f(any(lst),any(lst))
+
+def anyMean(lst,n=2):
+  return mean([any(lst) for _ in xrange(n)])
+  
 #### list stuff
 
 def first(lst)  : return lst[0]
 def second(lst) : return lst[1]
 def last(lst)   : return[-1]
+def mean(lst)   : return sum(lst)/len(lst)
   
 #### misc stuff
 

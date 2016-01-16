@@ -58,9 +58,17 @@ class Grid1:
     y = sqrt(a**2 - x**2)
     binx, biny = i.bin(x), i.bin(y)
     i.cells[ binx ][ biny ] += [one]
-    i._pos[id(one)] = o(x=x,y=y,binx=binx,
+    i._pos[id(one)] = o(x=x,y=y,binx=binx,of=one,
                         biny=biny,a=a,b=b)
     return x,y
+  def middles(i,binx,biny,n=1):
+    dist  = lambda x,y: ((x - xmu)**2 + (y-ymu)**2)**0.5
+    all   = map(i.pos,i.cells[binx][biny])
+    xmu   = mean([z.x for z in all])
+    ymu   = mean([z.y for z in all])
+    dists = [(dist(z.x,z.y),z.of) for z in all]
+    tmp   = sorted(dists)[:n]
+    return map(second,tmp)
   def bin(i,x):
     x = int(x/((i.c+0.0001)/the.GRID.bins))
     return max(0,min(the.GRID.bins - 1, x))

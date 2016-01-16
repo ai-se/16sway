@@ -191,45 +191,57 @@ def _Viennet4():
             == {'decs' : r3s(x.decs), 'objs': r3s(x.objs)}
  
 def _div(items=512):
-  models= [ZDT1,Fonseca,Kursawe]
+  models= [ZDT1] #,Fonseca,Kursawe]
+  models=[Kursawe]
   for f in models:
     reset()
-    GRID(bins=32)
+    GRID(bins=16)
+    COUNTS(qs=[0.25,0.5,0.75])
     print(f.__name__)
     m=f()
-    rows, _,all = _gridding(m,items)
+    rows, _,all,gridDecs,gridObjs= _gridding(m,items)
     print("\n")
-    printm([ [ _show(cell,items) for cell in row]  
-               for row  in rows])
-  
+    mat = [  [ _show(cell,items) for cell in  row]  
+               for row  in  rows]
+    mat1 = [[r]+x for r,x in enumerate(mat[:])]
+    
+    mat1 = [[" "] + [i for i in xrange(len(row))]]+ mat1
+    printm(mat1,sep=",")           
     cells = []
-    for row in rows:
-        for cell in row:
-          cells += [cell]
+    for r,row in enumerate(rows):
+        for c,cell in enumerate(row):
+          cells += [(r,c,cell)]
     print("")
+    s=0
+    anys=10
     overalls =  _divParts(m,all) 
     for i in xrange(len(m.objs)):
       print("")
-      overall = overalls[i]
-      print(i,"all :",overall,overall[3]-overall[1],sep=",")
-      for cell in cells:
-        if len(cell) > 8:
+      overall = [overalls[i].also().median]
+      top=overall[s] 
+      print(i,"all :",r3s(overall),r3(top),sep=",")
+      reports = []
+      for x,y,cell in cells:
+        if len(cell) > anys :
           parts= _divParts(m,cell)
-          part = parts[i] 
-          deltas = [int(div(100* (theres - here), theres))
-                    for here,theres in zip(part,overall)]
-          print(i,"part:",part,deltas,len(cell),part[3]-part[1],sep=",")
-    
-        
-    
-#    
+          #part = [parts[i].also().median] 
+           
+          mid = gridDecs.grid.middles(x,y) ;part = [ mid[0].objs[i] ]
+          #part=sorted([one.of.objs[s]  for one in mid])
+          if part[s]  < overall[s]:
+            deltas = [int(div(100* (theres - here), theres))
+                      for here,theres in zip(part,overall)]
+            top1 = r3(part[s])
+            reports += [[i,x,y,"part:",r3s(part),"deltas:",deltas,"len=",len(cell),r3(top1/top)]]
+      for report in sorted(reports,key=lambda z: -1*z[4][0]):
+        print(*report)
 
 def _divParts(m,lst):
   nums = [Num() for _ in m.objs]
   for one in lst:
     for num,obj in zip(nums,one.objs):
-        num+ obj
-  return [ num.also().range for num in nums] 
+        num+ obj 
+  return nums
  
 def _rahul(items=512):
   models= [BASIC,BASIC,
@@ -266,7 +278,7 @@ def _gridding(m,items):
      #     (data(xs2), data(ys2), {'legend':'cdom'}),
       #    (data(xs1), data(ys1), {'legend':'bdom'}),
        ### cmds="set key bottom left") 
-    return gridDecs.grid.cells, gridObjs.grid.cells,all
+    return gridDecs.grid.cells, gridObjs.grid.cells,all,gridDecs,gridObjs
 
 def _worker(m,spaceDecs,gridDecs,spaceObjs,gridObjs):
     x = m.decide()
@@ -276,12 +288,12 @@ def _worker(m,spaceDecs,gridDecs,spaceObjs,gridObjs):
     spaceObjs + x 
     gridObjs + x
     return x
-def _show(cell,items):
+    
+def _show(cell,items,r=None,c=None):
     n = len(cell) 
-    p =   int(100*n /items)
-    return str(n)
-    if p >=  1: return p
-    if n > 0 : return "."
+    p =   int(100*n /items) 
+    if p >=  1: return n 
+    if n > 0 : return "_"
     return " "
   
 def _frontier(m,all,spaceObjs,how="bdom"):
