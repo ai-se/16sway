@@ -78,6 +78,7 @@ class settings:
   def reset(seed=1):
     for k,v in settings.funs.items():
       settings.all[k] = v() 
+    print("# seed=",seed)
     random.seed(seed)
 def setting(f):
   settings(f)

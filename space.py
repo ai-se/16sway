@@ -13,19 +13,19 @@ def SPACE(): return o(
 # need a way to init from a list
 
 class Space:
-  def __init__(i,inits=[],value=same,):
-    i.value = value
+  def __init__(i,inits=[],get=same,):
+    i.get = get
     i.cache = {}
     i.lower, i.upper = None, None
     map(i.__add__,inits)
   def ready(i,one):
     if not i.lower:
-      i.lower = [ 10**32 for _ in i.value(one)]
-      i.upper = [-10**32 for _ in i.value(one)]
+      i.lower = [ 10**32 for _ in i.get(one)]
+      i.upper = [-10**32 for _ in i.get(one)]
   def __add__(i,one):
     i.ready(one)
     for n,(lo,up,new) in enumerate(zip(i.lower, i.upper,
-                                       i.value(one))):
+                                       i.get(one))):
       if new > up: i.upper[n] = new
       if new < lo: i.lower[n] = new
   def dist(i,xs,ys):
@@ -40,8 +40,8 @@ class Space:
       return d
   def dist1(i,xs,ys,d=0,n=0):
     i.ready(xs)
-    one = i.value(xs)
-    two = i.value(ys)
+    one = i.get(xs)
+    two = i.get(ys)
     for n,(x,y) in enumerate(zip(one,two)):
       x  = i.norm(x,n) 
       y  = i.norm(y,n) 

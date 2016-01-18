@@ -68,8 +68,8 @@ class Logs:
   def __init__(i,logs=[],inits=[]):
     i.logs = logs
     map(i.__add__,inits)
-  def __add__(i,x):
-    for log in i.logs:
+  def __add__(i,lst):
+    for x,log in zip(lst,i.logs):
       log + x
 
 def _counts():   

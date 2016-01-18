@@ -85,12 +85,33 @@ currently are passing their tests:
 
 ### The Fonseca Effect
 
-99% of all items in one cell
+99% of all items in one cell.
 
 ### The ZDT1 effect1
 
-Cells where objectives X and Y both get better may be in differet locations.
+Cells where objectives X and Y both get better may be in different locations.
 
 ### The ZDT1 effect2
 
 "Good" cells (with more than N items) may be islands (not form 1 clump).
+
+### The Variance effect
+
+The IQR was not much reduced in bins than overall.
+
+### Centrality Works, ish
+
++ Evaluate N items in a bin. Compute the mean values of the N objective in that bin.
++ Select  bins where  the mean  score of any objective is less the mean objective of all bins.
+
+Two treatments:
+
+1. Evaluate all items in all bins
+2. Evaluate just the item near the middle of each bin.
+
+Rx2 selects many of the same bins as selected by Rx1.
+
+### Many are Called, Few are Chosen
+
+Given _B*B_ bins, less than a dozen have more than 10 items and selected by the 
+_centrality works, ish_ method.

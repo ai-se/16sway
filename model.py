@@ -4,6 +4,7 @@ import  sys
 sys.dont_write_bytecode = True 
 
 from lib import *
+from counts import *
 
 @setting
 def MODEL(): return o(
@@ -36,6 +37,8 @@ def objectives(x): return x.objs
 class Model:
     def __init__(i):
         i.about() 
+    def logs(i):
+        return Logs([Num() for _ in i.objs])
     def eden(i):
       return  o(objs=None,decs=[f() for f in i.decs])
     def ok(i,x): 

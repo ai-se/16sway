@@ -6,6 +6,7 @@ sys.dont_write_bytecode = True
 
 from lib import *
 from space import *
+from model import *
 
 @setting
 def MUTATE(): return o(
@@ -136,7 +137,14 @@ def _nudge():
 ######################################################  
 @mutator
 def smear(all,get,*_):
-  aa, bb, cc = any(all), any(all), any(all)
+  return smearPrimitive(any(all), any(all), any(all),get)
+
+@mutator
+def smear3(aa,bb,cc,get=decisions):
+  return smearPrimitive(aa,bb,cc,get)
+  
+def smearPrimitive(aa,bb,cc,get=same):
+  print("get",get)
   f = the.MUTATE.f
   cr= the.MUTATE.cr
   tmp=  [a + f*(b - c) if r() < cr else a
