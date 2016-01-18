@@ -140,11 +140,11 @@ def smear(all,get,*_):
   return smearPrimitive(any(all), any(all), any(all),get)
 
 @mutator
-def smear3(aa,bb,cc,get=decisions):
+def smear3((aa,bb,cc),get=decisions,*_):
   return smearPrimitive(aa,bb,cc,get)
   
 def smearPrimitive(aa,bb,cc,get=same):
-  print("get",get)
+  print("get",get(aa))
   f = the.MUTATE.f
   cr= the.MUTATE.cr
   tmp=  [a + f*(b - c) if r() < cr else a
@@ -161,9 +161,12 @@ def _smear():
   for _ in all:
     new = smear(all, lower=lower,upper=upper,get=same)
     bounded(new.decs, lower, upper)
+  for _ in all:
+    new = smear3((any(all),any(all),any(all)), lower=lower,upper=upper,get=same)
+    bounded(new.decs, lower, upper)
 
 ######################################################  
     
-main(__name__,
-      _restrain,_mutator1,_mutator2,_interpolate,_nudge,_smear)
+main(__name__,_smear)
+    #  _restrain,_mutator1,_mutator2,_interpolate,_nudge,_smear)
 

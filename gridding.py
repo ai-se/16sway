@@ -52,14 +52,18 @@ def gridding(items   = 1000,
   budget = the.GRIDDING.budget
   while budget > 0:
     m       = f() 
-    grid,bins  = gridding1(m, getter, MakeGrid(Space([],decisions)),
-                             items, verbose)
+    space = Space([],decisions)
+    grid,bins  = gridding1(m, getter, MakeGrid(space), items, verbose)
     print(grid)
+    print(space)
     budget -= len(bins)
     print(decisions(grid.anys(bins)))
-    getter     = lambda : smear3(grid.anys(bins),
-                               grid.anys(bins),
-                              grid.anys(bins),decisions)
+    getter     = lambda : smear3((grid.anys(bins),
+                                 grid.anys(bins),
+                                 grid.anys(bins)), 
+                                 lower=space.lower, 
+                                 upper=space.upper,
+                                 get=decisions)
  
     
 gridding()
