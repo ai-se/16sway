@@ -70,6 +70,21 @@ def _lib():
   assert r3s([1.1111111,2.2222]) == [1.111,2.222]
   assert div(1,0) > 0
   
+def often(d,enough=10**32):
+  n, lst = 0, []
+  for x in d: 
+    n   += d[x]
+    lst += [(d[x],x)]
+  lst = sorted(lst, reverse=True)
+  while enough > 0:
+    tmp = random.random()
+    for freq,thing in lst:
+      tmp -= freq*1.0/n
+      if tmp <= 0:
+        yield thing
+        enough -= 1
+        break
+  
 ####################
 # ascii graph stuff
 # https://github.com/dkogan/gnuplotlib

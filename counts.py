@@ -33,7 +33,8 @@ class Some:
 class Log: pass
 
 class Num(Log):
-  def __init__(i,inits=[]):
+  def __init__(i,inits=[],txt=None):
+    i.txt = txt
     i.hi = i.lo = None
     i.mu = i.sd = i.m2 = 0  
     i.n = 0
@@ -60,6 +61,7 @@ class Num(Log):
       r   = the.COUNTS.round
       i._also = o(some=lst,
                   median=lst[int(m/2)],
+                  iqr=lst[int(0.75*m)] - lst[int(0.25*m)],
                   mu = i.mu,
                   range=r([lst[int(m*x)] for x in the.COUNTS.qs]))
     return i._also

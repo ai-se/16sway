@@ -137,21 +137,18 @@ def _nudge():
 ######################################################  
 @mutator
 def smear(all,get,*_):
-  return smearPrimitive(any(all), any(all), any(all),get)
-
-@mutator
-def smear3((aa,bb,cc),get=decisions,*_):
-  return smearPrimitive(aa,bb,cc,get)
-  
-def smearPrimitive(aa,bb,cc,get=same):
-  print("get",get(aa))
+  if len(all)==3:
+    aa,bb,cc=all  
+  else:
+    aa = any(all)
+    bb = any(all)
+    cc = any(all) 
+  aa,bb,cc = map(get,[aa,bb,cc])
   f = the.MUTATE.f
   cr= the.MUTATE.cr
   tmp=  [a + f*(b - c) if r() < cr else a
          for a,b,c
-         in  zip(get(aa),
-                 get(bb),  
-                 get(cc))]
+         in  zip(aa, bb, cc)]
   n = random.randint(0,len(aa)-1)
   tmp[n] = aa[n]
   return tmp
@@ -162,8 +159,9 @@ def _smear():
     new = smear(all, lower=lower,upper=upper,get=same)
     bounded(new.decs, lower, upper)
   for _ in all:
-    new = smear3((any(all),any(all),any(all)), lower=lower,upper=upper,get=same)
-    bounded(new.decs, lower, upper)
+    new = smear([any(all),any(all),any(all)], lower=lower,upper=upper,get=same)
+    bounded(new.decs, lower, upper) 
+  smear([any(all)], lower=lower,upper=upper,get=same)
 
 ######################################################  
     
