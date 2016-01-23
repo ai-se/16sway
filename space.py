@@ -48,6 +48,8 @@ class Space:
       d += (x - y)**2
       n += 1
     return sqrt(d) / sqrt(n)
+  def norms(i,one):
+    return [ i.norm(x,n) for n,x in enumerate(i.get(one)) ]
   def norm(i,x,n):
     if x < i.lower[n]: i.lower[n] = x
     if x > i.upper[n]: i.upper[n] = x
