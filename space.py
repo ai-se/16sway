@@ -13,7 +13,7 @@ def SPACE(): return o(
 # need a way to init from a list
 
 class Space:
-  def __init__(i,inits=[],get=same,):
+  def __init__(i,inits=[],get=same):
     i.get = get
     i.cache = {}
     i.lower, i.upper = None, None

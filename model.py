@@ -55,6 +55,10 @@ class Model:
       if not x.objs:
         x.objs = [f(x) for f in i.objs] 
       return x
+    def bothAsGood(i,x,y,how="bdom",space=None):
+      if not i.select(x,y,how,space): 
+        if not i.select(y,x,how,space):
+          return True
     def select(i,x,y,how="bdom",space=None):
       return i.bdom(x,y,space) if how == "bdom" else i.cdom(x,y,space)
     def bdom(i,x,y,_=None):
