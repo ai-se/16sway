@@ -45,6 +45,8 @@ def saReportEra(era):
 def sa(m,_, logDecs,logObjs): 
   print(10)
   sb = s = m.decide()
+  
+  return 1
   eb = e = the.SA.energy(m,s,logObjs.space) 
   logDecs += s
   logObjs += e
