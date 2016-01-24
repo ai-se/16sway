@@ -9,20 +9,17 @@ def OPTIMIZE(): return o(
   init = lambda m:  10*len(m.objs)
 ) 
 
-def control(model,how,seed=1):
-  print(1)
+def control(model,how,seed=1): 
   rseed(seed)
   m = model()
   n       = the.OPTIMIZE.init(m) 
   pop0    = [m.eval(m.decide()) for one in xrange(n)] 
   logDecs = MakeGrid(Space(pop0,get=decisions))
   logObjs = MakeGrid(Space(pop0,get=objectives))
-  for one in pop0: 
-    print(one)
+  for one in pop0:  
     logDecs+= one
-    logObjs+= one
-  print(10)
+    logObjs+= one 
   pop     = how(m,pop0[:],logDecs,logObjs) 
   map(m.eval,pop)
-  print(30)
+  print(len(pop))
   return pop0,pop

@@ -71,8 +71,7 @@ class Space:
     return i.furthest(one,all,better=lt,most=10**32)
 
 def _space(arity=5, items=1000):
-  reset() 
-  print(1)
+  reset()  
   space=Space() 
   one = None
   all = []
