@@ -73,6 +73,8 @@ class Logs:
   def __add__(i,lst):
     for x,log in zip(lst,i.logs):
       log + x
+  def range(i):
+    return [log.also().range for log in i.logs]
 
 def _counts():   
   reset()

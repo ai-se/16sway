@@ -63,7 +63,7 @@ def mutator(f):
     if ok: 
       assert retries > 0,WARNING
       if not ok(new):
-        return worker(old,get=same,
+        return worker(old,get=get,
                       lower    = lower,
                       upper    = upper,
                       ok       = ok,

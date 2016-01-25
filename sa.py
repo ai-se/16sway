@@ -5,7 +5,7 @@ sys.dont_write_bytecode = True
 from optimize import * 
 from mutate import *
 
-@settings
+@setting
 def SA(): 
   def e(m,x,space): 
     return mean(space.norms(m.eval(x)))
@@ -33,7 +33,7 @@ def saControl():
             era.sb    = b4.sb
             era.evals = b4.evals 
             saReportEra(b4) 
-     era.evals += 1
+     era.evals += 1 
      yield t,era 
   saReportEra(era)
   print("")
@@ -62,23 +62,25 @@ def sa(m,_, logDecs,logObjs):
     
     logDecs += sn
     logObjs += sn
-    en  = the.SA.energy(m,sn,logObjs.space) 
-    if m.bothAsGood(sn,sb, how=the.SA.how, space=logObjs):
-       frontier += [sn]
-    #print("SA",o(e=e,eb=eb,en=en),en<eb,en < e)
+    en  = the.SA.energy(m,sn,logObjs.space)   
     if en < eb:
       eb = en
       era.better += 1
       era.sb, era.eb = sn,en
       frontier = [sb]
+    elif m.bothAsGood(sn,sb, how=the.SA.how, space=logObjs):
+      frontier += [sn]
     if en < e:
       s,e = sn,en
       era.lt += 1 
     elif exp((e - en)/t) < r():
       s,e = sn,en
       era.stagger += 1 
-  return frontier
+  return  frontier 
    
-reset()
-control(ZDT1,sa)
-
+def _sa(): 
+  for source in [Viennet4,ZDT1,Fonseca,DTLZ7_2_3]: #, Viennet4]:
+    print(source.__name__)
+    control(source,sa,seed=1)  
+  
+main(__name__,_sa)
