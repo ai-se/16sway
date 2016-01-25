@@ -29,3 +29,18 @@ def control(model,how,seed=1):
   pop     = how(m,pop0[:],logDecs,logObjs)  
   map(m.eval,pop)  
   return pop0,pop
+  
+def dumb(m,pop,logDecs,lobObjs,how='bdom'):
+  for _ in xrange(1000): 
+     one      = m.eval(m.decide()) 
+     lobObjs += one
+     pop     += [one]
+  return tournament(m,pop,lobObjs.space,how=how)
+  
+
+def _dumb(): 
+  for source in [Viennet4,ZDT1,Fonseca,DTLZ7_2_3]: #, Viennet4]:
+    print(source.__name__)
+    control(source,dumb,seed=1)    
+    
+_dumb()
