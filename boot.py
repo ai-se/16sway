@@ -44,7 +44,7 @@ def _ok():
 class o:
   def __init__(i,**d)   : i.add(**d)
   def __setitem__(i,k,v): i.__dict__[k] = v
-  def __getitem__(i,k)  : print(">",k); return i.__dict__[k]
+  def __getitem__(i,k)  : return i.__dict__[k]
   def __repr__(i)       : return 'o'+str(i.__dict__)
   def add(i,**d)        : return i.__dict__.update(d)
   def items(i)          : return i.__dict__.items()

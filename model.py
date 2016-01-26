@@ -60,6 +60,8 @@ class Model:
         if not i.select(y,x,how,space):
           return True
     def select(i,x,y,how="bdom",space=None):
+      i.eval(x)
+      i.eval(y)
       return i.bdom(x,y,space) if how == "bdom" else i.cdom(x,y,space)
     def bdom(i,x,y,_=None):
         betters = False

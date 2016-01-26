@@ -82,6 +82,7 @@ def _sa():
   for source in [Viennet4,ZDT1,Fonseca,DTLZ7_2_3]: #, Viennet4]:
     print(source.__name__)
     for what in [sa,dumb]:
-      control(source,what,seed=1)  
+      print(what.__name__)
+      control(source,what,seed=1)   
   
 main(__name__,_sa)

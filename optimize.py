@@ -3,24 +3,27 @@ import  sys
 sys.dont_write_bytecode = True 
 
 from models import *
+from sa import *
 
 @setting
 def OPTIMIZE(): return o(
   init = lambda m:  10*len(m.objs)
 ) 
 
-def pop0stats(m,pop):
+def popStats(m,pop):
   logs = Logs([Num() for _ in m.objs])
+  spaceObjs =  Space(pop,get=objectives)
   for one in pop:
     logs + objectives(one)
-  return [log.also().median for log in logs.logs]
+    spaceObjs + one
+  return [log.also().median for log in logs.logs],spaceObjs
   
 def control(model,how,seed=1): 
   rseed(seed)
   m       = model()
   n       = the.OPTIMIZE.init(m) 
   pop0    = [m.eval(m.decide()) for one in xrange(n)] 
-  print(r3s(pop0stats(m,pop0)))
+  print(r3s(first(popStats(m,pop0))))
   logDecs = MakeGrid(Space(pop0,get=decisions))
   logObjs = MakeGrid(Space(pop0,get=objectives))
   for one in pop0:  
@@ -37,10 +40,4 @@ def dumb(m,pop,logDecs,lobObjs,how='bdom'):
      pop     += [one]
   return tournament(m,pop,lobObjs.space,how=how)
   
-
-def _dumb(): 
-  for source in [Viennet4,ZDT1,Fonseca,DTLZ7_2_3]: #, Viennet4]:
-    print(source.__name__)
-    control(source,dumb,seed=1)    
-    
-_dumb()
+   

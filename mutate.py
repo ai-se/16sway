@@ -119,7 +119,22 @@ def _interpolate():
   for _ in all:
     new = interpolate(all, lower=lower,upper=upper,get=same)
     bounded(new.decs, lower, upper)
-                   
+  
+######################################################  
+@mutator
+def crossOverMutate((mum,dad),get,lower,upper):
+  p   = the.MUTATE.p 
+  mum = get(mum)
+  dad = get(dad)
+  n   = len(mum) // 2
+  if r() < 0.5:
+    mum,dad= dad,mum 
+  child = dad[:n] + mum[n:]
+  return [x if p < r() else lo + (up - lo)*r() 
+          for x,lo,up 
+          in  zip(child,lower,upper)]
+          
+                    
 ######################################################  
 @mutator
 def nudge((here,there),get,*_):
