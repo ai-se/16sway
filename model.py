@@ -89,6 +89,12 @@ class Model:
 
 def tournament(model,all,space,how='bdom'):
   dom={}
+  uniques = {}
+  for x in all:
+    h = hash(x.decs)
+    if not h in uniques: 
+      uniques[h] = x
+  all = uniques.values()
   for x in  all:
       dom[id(x)]   =False
   for x in all:  

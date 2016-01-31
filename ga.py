@@ -4,6 +4,7 @@ sys.dont_write_bytecode = True
 
 from optimize import * 
 from mutate import *
+from de import *
 
 @setting
 def GA(): return o(
@@ -30,15 +31,14 @@ def ga(m,pop,logDecs,logObjs):
       logDecs += child                
       logObjs += child
       pop     += [child] 
-    pop = tournament(m,pop,logObjs.space,how=the.GA.select)
-    print(len(pop))
+    pop = tournament(m,pop,logObjs.space,how=the.GA.select) 
     more = len(pop) < the.GA.popSize*the.GA.enough
   return pop
 
 def _ga(): 
   for model in [Viennet4,ZDT1,Fonseca,DTLZ7_2_3]: #, Viennet4]:
     print(model.__name__) 
-    for what in [ga]:
+    for what in [ga,de,dumb]:
       print(what.__name__)
       control(model,what,seed=1)   
   
