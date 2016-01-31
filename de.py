@@ -17,6 +17,8 @@ def DE():
     verbose=True)
     
 def de(m,frontier,logDecs,logObjs): 
+  want = the.DE.size(m)
+  frontier = shuffle(frontier)[:want]
   for r in xrange(the.DE.repeats):
     for n,parent in enumerate(frontier):
       child = smear(frontier,

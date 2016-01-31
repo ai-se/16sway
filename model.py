@@ -91,7 +91,7 @@ def tournament(model,all,space,how='bdom'):
   dom={}
   uniques = {}
   for x in all:
-    h = hash(x.decs)
+    h = hash(frozenset(x.decs))
     if not h in uniques: 
       uniques[h] = x
   all = uniques.values()

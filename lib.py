@@ -52,6 +52,9 @@ def first(lst)  : return lst[0]
 def second(lst) : return lst[1]
 def last(lst)   : return[-1]
 def mean(lst)   : return sum(lst)/len(lst)
+def shuffle(lst):
+  random.shuffle(lst)
+  return lst
   
 #### misc stuff
 
